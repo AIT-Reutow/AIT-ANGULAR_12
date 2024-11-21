@@ -1,0 +1,31 @@
+<!--<div *ngFor="let currentContact of allContacts, let elementNumber = index">
+  <ul class="list-group">
+    <li class="list-group-item list-group-item-action">
+      Contact ID: {{ elementNumber }}
+    </li>
+
+
+    <app-contact-list-element *ngIf="currentContact && elementNumber % 2 == 0" class="mb-5"
+                              [contactToDisplay]="currentContact"></app-contact-list-element>
+  </ul>
+</div>-->
+
+
+@for (currentContact of allContacts; track currentContact; let elementNumber = $index) {
+  <ul class="list-group-item list-group-item-action">
+    @if (currentContact) {
+      <app-contact-list-element class="mb-5"
+                                [contactToDisplay]="currentContact"
+                                [elementId]="elementNumber"
+      ></app-contact-list-element>
+    } @else {
+      <ngb-alert type="warning" [dismissible]="false">
+        Contact is not present
+      </ngb-alert>
+    }
+  </ul>
+} @empty {
+  <ngb-alert type="danger" [dismissible]="false">
+    Contacts is empty
+  </ngb-alert>
+}
