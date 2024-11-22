@@ -2,17 +2,18 @@ import {Component} from '@angular/core';
 import {Contact} from '../../model/contact';
 import {ContactListElementComponent} from './contact-list-element/contact-list-element.component';
 import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
+import {AddContactFormComponent} from '../add-contact-form/add-contact-form.component';
 
 const CONTACTS: Contact[] = [
   {
-    name: "Vasja",
+    firstName: "Vasja",
     lastName: 'Pupkin',
     phone: '0176303099',
     email: 'vasja.pupkin@gmail.com',
     address: 'Main str 117'
   },
   {
-    name: "Maria",
+    firstName: "Maria",
     lastName: 'Schmidt',
     phone: '017399910054',
     email: 'maria.schmoidt@gmail.com',
@@ -25,7 +26,8 @@ const CONTACTS: Contact[] = [
   selector: 'app-contact-list',
   imports: [
     ContactListElementComponent,
-    NgbAlert
+    NgbAlert,
+    AddContactFormComponent
   ],
   templateUrl: './contact-list.component.html',
   styles: ``,
@@ -34,5 +36,14 @@ const CONTACTS: Contact[] = [
 export class ContactListComponent {
 
   allContacts = CONTACTS;
+  isCreateModus: boolean = false;
 
+  toggleCreateModus() {
+    this.isCreateModus = !this.isCreateModus;
+  }
+
+  onSaveContact(newContact: Contact) {
+    this.allContacts.push(newContact);
+    this.toggleCreateModus();
+  }
 }

@@ -1,31 +1,43 @@
-<!--<div *ngFor="let currentContact of allContacts, let elementNumber = index">
-  <ul class="list-group">
-    <li class="list-group-item list-group-item-action">
-      Contact ID: {{ elementNumber }}
-    </li>
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex justify-content-between">
+      <h5>
+        My Contacts
+      </h5>
+      <div>
+        <button class="btn"
+                [class.btn-outline-primary]="!isCreateModus"
+                [class.btn-danger]="isCreateModus"
+                (click)="toggleCreateModus()">Create new
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
 
+    @if (isCreateModus) {
+      <app-add-contact-form
+        (onSave)="onSaveContact($event)"
+        (onCancel)="toggleCreateModus()"></app-add-contact-form>
+    }
 
-    <app-contact-list-element *ngIf="currentContact && elementNumber % 2 == 0" class="mb-5"
-                              [contactToDisplay]="currentContact"></app-contact-list-element>
-  </ul>
-</div>-->
-
-
-@for (currentContact of allContacts; track currentContact; let elementNumber = $index) {
-  <ul class="list-group-item list-group-item-action">
-    @if (currentContact) {
-      <app-contact-list-element class="mb-5"
-                                [contactToDisplay]="currentContact"
-                                [elementId]="elementNumber"
-      ></app-contact-list-element>
-    } @else {
-      <ngb-alert type="warning" [dismissible]="false">
-        Contact is not present
+    @for (currentContact of allContacts; track currentContact; let elementNumber = $index) {
+      <ul class="list-group">
+        @if (currentContact) {
+          <app-contact-list-element class="mb-5"
+                                    [contactToDisplay]="currentContact"
+                                    [elementId]="elementNumber"
+          ></app-contact-list-element>
+        } @else {
+          <ngb-alert type="warning" [dismissible]="false">
+            Contact is not present
+          </ngb-alert>
+        }
+      </ul>
+    } @empty {
+      <ngb-alert type="danger" [dismissible]="false">
+        Contacts is empty
       </ngb-alert>
     }
-  </ul>
-} @empty {
-  <ngb-alert type="danger" [dismissible]="false">
-    Contacts is empty
-  </ngb-alert>
-}
+  </div>
+</div>
