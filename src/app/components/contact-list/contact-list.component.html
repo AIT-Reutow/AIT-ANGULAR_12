@@ -22,18 +22,22 @@
     }
 
     @for (currentContact of allContacts; track currentContact; let elementNumber = $index) {
-      <ul class="list-group">
-        @if (currentContact) {
-          <app-contact-list-element class="mb-5"
-                                    [contactToDisplay]="currentContact"
-                                    [elementId]="elementNumber"
-          ></app-contact-list-element>
-        } @else {
-          <ngb-alert type="warning" [dismissible]="false">
-            Contact is not present
-          </ngb-alert>
-        }
-      </ul>
+      <div class="card mb-1 shadow">
+        <div class="card-body bg-light-subtle">
+          <ul class="list-group">
+            @if (currentContact) {
+              <app-contact-list-element
+                                        [contactToDisplay]="currentContact"
+                                        [elementId]="elementNumber"
+              ></app-contact-list-element>
+            } @else {
+              <ngb-alert type="warning" [dismissible]="false">
+                Contact is not present
+              </ngb-alert>
+            }
+          </ul>
+        </div>
+      </div>
     } @empty {
       <ngb-alert type="danger" [dismissible]="false">
         Contacts is empty

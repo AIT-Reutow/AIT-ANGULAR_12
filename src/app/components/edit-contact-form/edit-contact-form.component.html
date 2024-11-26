@@ -1,0 +1,102 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Edit Contact</h5>
+  <button type="button" class="btn-close" (click)="onClickCancel()"></button>
+</div>
+
+<div class="modal-body">
+  @if (editForm) {
+    <pre>
+      invalid: {{ editForm.invalid | json }}
+      errors: {{ editForm.controls['firstName'].errors | json }}
+      dirty: {{ editForm.controls['firstName'].dirty | json }}
+      untouched: {{ editForm.controls['firstName'].untouched | json }}
+      <!--      {{ editForm.controls['lastName'].errors | json }}-->
+      <!--      {{ editForm.controls['email'].errors | json }}-->
+      <!--      {{ editForm.controls['phone'].errors | json }}-->
+      <!--      {{ editForm.controls['address'].errors | json }}-->
+
+</pre>
+
+    <form [formGroup]="editForm" (ngSubmit)="onClickSave()">
+
+      <div class="mb-3">
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text"
+               class="form-control"
+               [class.is-valid]="!hasControlErrors('firstName')"
+               [class.is-invalid]="hasControlErrors('firstName')"
+               id="firstName"
+               formControlName="firstName"
+               placeholder="Enter name">
+        {{ getFormControl('firstName').value.length }} of {{ nameFiledMaxLength }}
+        @if (isFormDirtyOrTouched('firstName') && hasControlErrors('firstName')) {
+
+          @if (hasControlError('firstName', 'required')) {
+            <div class="invalid-feedback">Input is required</div>
+          }
+
+          @if (hasControlError('firstName', 'minlength')) {
+            <div class="invalid-feedback">Input is too short,
+              expected: {{ getFormControl('firstName').errors!['minlength'].requiredLength }},
+              actual {{ getFormControl('firstName').errors!['minlength'].actualLength }}
+            </div>
+          }
+
+          @if (hasControlError('firstName', 'maxlength')) {
+            <div class="invalid-feedback">Input is too long</div>
+          }
+
+          @if (hasControlError('firstName', 'pattern')) {
+            <div class="invalid-feedback">Invalid format</div>
+          }
+        }
+      </div>
+
+      <div class="mb-3">
+        <label for="lastName" class="form-label">Last name</label>
+        <input type="text"
+               class="form-control"
+               formControlName="lastName"
+               id="lastName"
+               placeholder="Enter last name">
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="text"
+               class="form-control"
+               formControlName="email"
+               id="email"
+               placeholder="Enter email">
+      </div>
+
+      <div class="mb-3">
+        <label for="phone" class="form-label">Phone</label>
+        <input type="text"
+               class="form-control"
+               formControlName="phone"
+               id="phone"
+               placeholder="Enter phone">
+      </div>
+
+      <div class="mb-3">
+        <label for="address" class="form-label">Address</label>
+        <input type="text"
+               class="form-control"
+               formControlName="address"
+               id="address"
+               placeholder="Enter address">
+      </div>
+
+    </form>
+  } @else {
+    <ngb-alert type="warning" [dismissible]="false">Loading ...</ngb-alert>
+  }
+</div>
+
+<div class="modal-footer">
+  <div class="d-flex justify-content-between">
+    <button class="btn btn-primary w-100" [disabled]="editForm?.invalid" (click)="onClickSave()">Save</button>
+    <button class="btn btn-danger ms-3 w-100" (click)="onClickCancel()">Cancel</button>
+  </div>
+</div>
