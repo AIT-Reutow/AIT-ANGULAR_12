@@ -2,7 +2,6 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Contact} from '../../model/contact';
 import {NgbActiveModal, NgbAlert} from '@ng-bootstrap/ng-bootstrap';
-import {JsonPipe} from '@angular/common';
 
 @Component({
   selector: 'app-edit-contact-form',
@@ -10,8 +9,7 @@ import {JsonPipe} from '@angular/common';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgbAlert,
-    JsonPipe
+    NgbAlert
   ],
   templateUrl: './edit-contact-form.component.html',
   styles: ``

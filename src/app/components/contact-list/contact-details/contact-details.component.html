@@ -1,0 +1,36 @@
+<div class="card">
+
+  <div class="card-header">
+
+    <div class="d-flex justify-content-between">
+
+      <h4 class="fs-4 card-title text-center">
+        {{ contact.firstName }} {{ contact.lastName }}
+      </h4>
+      <div class="btn-group">
+        <button class="btn btn-warning btn-sm w-100" (click)="onClickEdit()">Edit</button>
+        <button class="btn btn-danger btn-sm w-100" (click)="onClickDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body w-50">
+
+    <div class="d-flex justify-content-between">
+      <p>Email</p>
+      <p>{{ contact.email }}</p>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <p>Phone</p>
+      <p>{{ contact.phone }}</p>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <p>Address</p>
+      <p>{{ contact.address }}</p>
+    </div>
+
+  </div>
+
+</div>

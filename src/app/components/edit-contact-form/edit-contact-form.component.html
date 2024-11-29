@@ -5,18 +5,6 @@
 
 <div class="modal-body">
   @if (editForm) {
-    <pre>
-      invalid: {{ editForm.invalid | json }}
-      errors: {{ editForm.controls['firstName'].errors | json }}
-      dirty: {{ editForm.controls['firstName'].dirty | json }}
-      untouched: {{ editForm.controls['firstName'].untouched | json }}
-      <!--      {{ editForm.controls['lastName'].errors | json }}-->
-      <!--      {{ editForm.controls['email'].errors | json }}-->
-      <!--      {{ editForm.controls['phone'].errors | json }}-->
-      <!--      {{ editForm.controls['address'].errors | json }}-->
-
-</pre>
-
     <form [formGroup]="editForm" (ngSubmit)="onClickSave()">
 
       <div class="mb-3">

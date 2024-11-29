@@ -30,7 +30,7 @@ export class ContactListElementComponent {
   @Input()
   elementId!: number;
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, ) {
   }
 
 
