@@ -1,17 +1,20 @@
 import {Injectable} from '@angular/core';
 import {Contact} from '../model/contact';
 import {data} from '../data';
+import {HttpClient} from '@angular/common/http';
+import {ReadContactDto} from '../model/read-contact-dto';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactService {
 
-  constructor() {
+  constructor(private client: HttpClient) {
   }
 
-  getAll(): Contact[] {
-    return data;
+  getAll(): Observable<ReadContactDto[]> {
+    return this.client.get<ReadContactDto[]>('/api/contacts');
   }
 
   getById(id: number): Contact {
@@ -23,27 +26,10 @@ export class ContactService {
   }
 
   edit(id: number, contactUpdate: Contact): Contact {
-    const all = this.getAll();
 
-    const contactIndex = all.findIndex(contact => contact.id === id);
-    if (contactIndex === -1) {
-      throw new Error(`Contact by id ${id} not found`);
-    }
-
-    all[contactIndex] = contactUpdate;
-    return all[contactIndex];
+    return contactUpdate;
   }
 
-  delete(id: number): Contact {
-    const all = this.getAll();
-
-    const contactIndex = all.findIndex(contact => contact.id === id);
-    if (contactIndex === -1) {
-      throw new Error(`Contact by id ${id} not found`);
-    }
-    let contactToDelete = all[contactIndex];
-    all.splice(contactIndex, 1);
-
-    return contactToDelete;
+  delete(id: number): void {
   }
 }

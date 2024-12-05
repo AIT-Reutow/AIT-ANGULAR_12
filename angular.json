@@ -64,6 +64,7 @@
               "buildTarget": "untitled:build:production"
             },
             "development": {
+              "proxyConfig": "proxy.conf.json",
               "buildTarget": "untitled:build:development"
             }
           },

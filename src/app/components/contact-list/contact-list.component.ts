@@ -4,6 +4,9 @@ import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 import {ContactService} from '../../service/contact.service';
 import {RouterLink} from '@angular/router';
 import {SpinnerComponent} from '../spinner/spinner.component';
+import {AuthService} from '../../service/auth.service';
+import {ReadContactDto} from '../../model/read-contact-dto';
+import {first} from 'rxjs';
 
 @Component({
   selector: 'app-contact-list',
@@ -18,16 +21,29 @@ import {SpinnerComponent} from '../spinner/spinner.component';
 })
 export class ContactListComponent implements OnInit {
 
-  allContacts: Contact[] | undefined;
+  allContacts: ReadContactDto[] | undefined;
   isCreateModus: boolean = false;
 
-  constructor(private contactService: ContactService) {
+  constructor(private contactService: ContactService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.allContacts = this.contactService.getAll();
-    }, 1000);
+    console.log('1');
+    this.authService.login('john.doe@example.com', 'MyPass007!')
+      .pipe(first())
+      .subscribe({
+        next: pupkin => {
+
+          this.contactService.getAll()
+            .pipe(first())
+            .subscribe({
+              next: x => this.allContacts = x,
+            });
+
+        },
+        error: err => console.error('Something wrong occurred: ' + err),
+        complete: () => console.log('Done')
+      });
   }
 
   toggleCreateModus() {
