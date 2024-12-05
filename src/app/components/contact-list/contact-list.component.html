@@ -1,30 +1,43 @@
 @if (!allContacts) {
   <app-spinner></app-spinner>
 } @else {
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th scope="col">First Name</th>
-      <th scope="col">Last Name</th>
-      <th scope="col">Action</th>
-    </tr>
-    </thead>
-    <tbody>
-      @for (currentContact of allContacts; track currentContact) {
-        <tr>
-          <th>{{ currentContact.firstName }}</th>
-          <td>{{ currentContact.lastName }}</td>
-          <td>
-            <a class="btn btn-sm btn-outline-primary" [routerLink]="[currentContact.id]">Details</a>
-            <a class="btn btn-sm btn-outline-primary" [routerLink]="['my', 'best', 'group', currentContact.id]">Details/Group</a>
-          </td>
-        </tr>
-      } @empty {
-        <ngb-alert type="danger" [dismissible]="false">
-          Contacts is empty
-        </ngb-alert>
-      }
-    </tbody>
-  </table>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="d-flex justify-content-between">
+        <div><h3>My Contacts</h3></div>
+        <div>
+
+          <button class="btn btn-primary" (click)="onclickCreateContact()">Add Contact</button>
+
+        </div>
+      </div>
+    </div>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (currentContact of allContacts; track currentContact) {
+          <tr>
+            <th>{{ currentContact.firstName }}</th>
+            <td>{{ currentContact.lastName }}</td>
+            <td>
+              <a class="btn btn-sm btn-outline-primary" [routerLink]="[currentContact.id]">Details</a>
+              <a class="btn btn-sm btn-outline-primary" [routerLink]="['my', 'best', 'group', currentContact.id]">Details/Group</a>
+            </td>
+          </tr>
+        } @empty {
+          <ngb-alert type="danger" [dismissible]="false">
+            Contacts is empty
+          </ngb-alert>
+        }
+      </tbody>
+    </table>
+  </div>
 }
 

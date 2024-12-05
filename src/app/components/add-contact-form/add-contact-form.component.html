@@ -1,52 +1,89 @@
-<div class="card mb-3 bg-light shadow">
-  <div class="card-header">
-    <h4 class="fs-4 card-title">Create New Contact</h4>
-  </div>
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Edit Contact</h5>
+  <button type="button" class="btn-close" (click)="onClickCancel()"></button>
+</div>
 
-  <div class="card-body">
-
-    <form (ngSubmit)="onClickSave()">
+<div class="modal-body">
+  @if (createForm) {
+    <form [formGroup]="createForm" (ngSubmit)="onClickSave()">
 
       <div class="mb-3">
         <label for="firstName" class="form-label">First Name</label>
-        <input [(ngModel)]="model.firstName" type="text" class="form-control" id="firstName" name="firstName"
+        <input type="text"
+               class="form-control"
+               [class.is-valid]="!hasControlErrors('firstName')"
+               [class.is-invalid]="hasControlErrors('firstName')"
+               id="firstName"
+               formControlName="firstName"
                placeholder="Enter name">
+        @if (isFormDirtyOrTouched('firstName') && hasControlErrors('firstName')) {
+
+          @if (hasControlError('firstName', 'required')) {
+            <div class="invalid-feedback">Input is required</div>
+          }
+
+          @if (hasControlError('firstName', 'minlength')) {
+            <div class="invalid-feedback">Input is too short,
+              expected: {{ getFormControl('firstName').errors!['minlength'].requiredLength }},
+              actual {{ getFormControl('firstName').errors!['minlength'].actualLength }}
+            </div>
+          }
+
+          @if (hasControlError('firstName', 'maxlength')) {
+            <div class="invalid-feedback">Input is too long</div>
+          }
+
+          @if (hasControlError('firstName', 'pattern')) {
+            <div class="invalid-feedback">Invalid format</div>
+          }
+        }
       </div>
 
       <div class="mb-3">
         <label for="lastName" class="form-label">Last name</label>
-        <input [(ngModel)]="model.lastName" type="text" class="form-control" id="lastName" name="lastName"
+        <input type="text"
+               class="form-control"
+               formControlName="lastName"
+               id="lastName"
                placeholder="Enter last name">
       </div>
 
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input [(ngModel)]="model.email" type="text" class="form-control" id="email" name="email"
+        <input type="text"
+               class="form-control"
+               formControlName="email"
+               id="email"
                placeholder="Enter email">
       </div>
 
       <div class="mb-3">
         <label for="phone" class="form-label">Phone</label>
-        <input [(ngModel)]="model.phone" type="text" class="form-control" id="phone" name="phone"
+        <input type="text"
+               class="form-control"
+               formControlName="phone"
+               id="phone"
                placeholder="Enter phone">
       </div>
 
       <div class="mb-3">
         <label for="address" class="form-label">Address</label>
-        <input [(ngModel)]="model.address" type="text" class="form-control" id="address" name="address"
+        <input type="text"
+               class="form-control"
+               formControlName="address"
+               id="address"
                placeholder="Enter address">
       </div>
 
     </form>
+  } @else {
+    <ngb-alert type="warning" [dismissible]="false">Loading ...</ngb-alert>
+  }
+</div>
 
+<div class="modal-footer">
+  <div class="d-flex justify-content-between">
+    <button class="btn btn-primary w-100" [disabled]="createForm?.invalid" (click)="onClickSave()">Save</button>
+    <button class="btn btn-danger ms-3 w-100" (click)="onClickCancel()">Cancel</button>
   </div>
-
-  <div class="card-footer">
-    <div class="d-flex justify-content-between">
-      <button class="btn btn-primary w-100" (click)="onClickSave()">Save</button>
-      <button class="btn btn-danger ms-3 w-100" (click)="onClickCancel()">Cancel</button>
-    </div>
-  </div>
-
-
 </div>
