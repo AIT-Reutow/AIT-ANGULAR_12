@@ -4,6 +4,8 @@ import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 import {ContactService} from '../../service/contact.service';
 import {RouterLink} from '@angular/router';
 import {SpinnerComponent} from '../spinner/spinner.component';
+import {ReadContactDto} from '../../model/read-contact-dto';
+import {AuthService} from '../../service/auth.service';
 
 @Component({
   selector: 'app-contact-list',
@@ -18,16 +20,18 @@ import {SpinnerComponent} from '../spinner/spinner.component';
 })
 export class ContactListComponent implements OnInit {
 
-  allContacts: Contact[] | undefined;
+  allContacts: ReadContactDto[] | undefined;
   isCreateModus: boolean = false;
 
-  constructor(private contactService: ContactService) {
+  constructor(private contactService: ContactService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.allContacts = this.contactService.getAll();
-    }, 1000);
+    this.authService.login('john.doe@example.com', 'MyPass007!')
+      .subscribe(value => {
+        this.contactService.getAll()
+          .subscribe(allContacts => this.allContacts = allContacts);
+      })
   }
 
   toggleCreateModus() {

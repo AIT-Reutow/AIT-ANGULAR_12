@@ -29,7 +29,10 @@ export class ContactDetailsComponent implements OnInit {
       throw new Error('No contact id provided');
     }
     this.currentContactId = +id;
-    this.contact = this.contactService.getById(Number(this.currentContactId));
+
+    this.contactService.getById(Number(this.currentContactId)).subscribe(
+      contact => this.contact = contact
+    )
 
     console.log('id', id);
     console.log('contact', this.contact);
@@ -41,7 +44,7 @@ export class ContactDetailsComponent implements OnInit {
 
     modalRef.closed.subscribe(result => {
       this.contact = {id: this.currentContactId, ...result};
-      this.contactService.edit(this.currentContactId, this.contact);
+      this.contactService.edit(this.currentContactId, this.contact).subscribe();
     });
   }
 

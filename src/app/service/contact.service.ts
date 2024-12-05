@@ -1,49 +1,37 @@
 import {Injectable} from '@angular/core';
-import {Contact} from '../model/contact';
-import {data} from '../data';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/internal/Observable';
+import {ReadContactDto} from '../model/read-contact-dto';
+import {CreateContactDto} from '../model/create-contact-dto';
+import {UpdateContactDto} from '../model/update-contact-dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactService {
 
-  constructor() {
+  private apiUrl = '/api/contacts';
+
+  constructor(private http: HttpClient) {
   }
 
-  getAll(): Contact[] {
-    return data;
+  getById(id: number): Observable<ReadContactDto> {
+    return this.http.get<ReadContactDto>(`${this.apiUrl}/${id}`);
   }
 
-  getById(id: number): Contact {
-    const contactById = data.find(contact => contact.id === id);
-    if (contactById) {
-      return contactById;
-    }
-    throw new Error(`Contact by id ${id} not found`);
+  getAll(): Observable<ReadContactDto[]> {
+    return this.http.get<ReadContactDto[]>(this.apiUrl);
   }
 
-  edit(id: number, contactUpdate: Contact): Contact {
-    const all = this.getAll();
-
-    const contactIndex = all.findIndex(contact => contact.id === id);
-    if (contactIndex === -1) {
-      throw new Error(`Contact by id ${id} not found`);
-    }
-
-    all[contactIndex] = contactUpdate;
-    return all[contactIndex];
+  create(contact: CreateContactDto): Observable<ReadContactDto> {
+    return this.http.post<ReadContactDto>(this.apiUrl, contact);
   }
 
-  delete(id: number): Contact {
-    const all = this.getAll();
+  edit(contactId: number, contact: UpdateContactDto): Observable<ReadContactDto> {
+    return this.http.put<ReadContactDto>(this.apiUrl, contact);
+  }
 
-    const contactIndex = all.findIndex(contact => contact.id === id);
-    if (contactIndex === -1) {
-      throw new Error(`Contact by id ${id} not found`);
-    }
-    let contactToDelete = all[contactIndex];
-    all.splice(contactIndex, 1);
-
-    return contactToDelete;
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
